@@ -17,6 +17,33 @@ news -> observed demand change -> revenue/profit transmission -> small-cap elast
 
 Treat outputs as research hypotheses, not investment advice. Verify current prices, market caps, filings, earnings calls, and news from reliable sources before naming securities or making time-sensitive claims.
 
+## Optional SEC Data Assist
+
+For U.S.-listed companies, use SEC filings as the factual base for reported fundamentals and management disclosure when available. `edgartools` is a good optional helper for this step because it can retrieve company filings, XBRL financial statements, filing text, insider transactions, ownership forms, and recent 8-K disclosures.
+
+If the environment does not already have it, install with `pip install edgartools` or `uv pip install edgartools`. The import package is `edgar`, not `edgartools`. SEC access requires an identity; set `EDGAR_IDENTITY="Name email@example.com"` in the environment or call `from edgar import set_identity; set_identity("name@example.com")` before requests.
+
+Minimal usage pattern:
+
+```python
+from edgar import Company
+
+company = Company("AAPL")
+filings = company.get_filings(form="10-Q")
+financials = company.get_financials()
+income = financials.income_statement()
+```
+
+Use it to support the analysis, not to replace the framework:
+
+- Pull the latest 10-K, 10-Q, and relevant 8-K filings before judging whether a demand change has reached reported numbers.
+- Use XBRL financials for historical revenue, gross profit, margin, cash flow, balance sheet, share count, and segment clues.
+- Search filing text and MD&A for demand-driver terms, customer concentration, backlog/order commentary, capacity, pricing, supply constraints, and risk-factor changes.
+- Check Form 4, 13D/G, or 13F data only as supporting context; do not treat ownership activity as proof of the alpha thesis.
+- Keep non-SEC data separate: current price, market cap, valuation multiples, sell-side estimates, TAM, channel checks, and industry pricing usually require other current sources.
+
+When using SEC data, cite the filing form and filing date in the reasoning, and state when the data is stale relative to the news item.
+
 ## Answer Shape
 
 Start and end with the company that best fits the alpha hypothesis.

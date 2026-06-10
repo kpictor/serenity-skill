@@ -26,6 +26,33 @@ Use whatever the user provides, and clearly mark missing variables that require 
 - market FOMO: share-price move, options activity, social heat, analyst revisions, theme crowding, narrative strength
 - new information: orders, customers, products, pricing, policy, competition, capacity, earnings, management guidance
 
+### Optional SEC Data Assist
+
+For U.S.-listed companies, use SEC filings as the baseline evidence for reported historical fundamentals. `edgartools` can be used to fetch company filings, XBRL financial statements, filing text, insider transactions, ownership filings, and recent 8-K disclosures.
+
+If the environment does not already have it, install with `pip install edgartools` or `uv pip install edgartools`. The import package is `edgar`, not `edgartools`. SEC access requires an identity; set `EDGAR_IDENTITY="Name email@example.com"` in the environment or call `from edgar import set_identity; set_identity("name@example.com")` before requests.
+
+Minimal usage pattern:
+
+```python
+from edgar import Company
+
+company = Company("AAPL")
+financials = company.get_financials()
+income = financials.income_statement()
+balance = financials.balance_sheet()
+cashflow = financials.cashflow_statement()
+```
+
+Use SEC data to anchor:
+
+- revenue history, gross margin, operating margin, EPS, free cash flow, capex, debt, cash, dilution, and share-count trends
+- segment revenue, customer concentration, backlog/order language, risk-factor changes, and management's stated demand drivers
+- 10-K and 10-Q trend baselines for the prior, and 8-K/earnings-release data for the latest update
+- Form 4, 13D/G, and 13F data as sentiment/ownership context only, not as intrinsic-growth evidence by itself
+
+Do not use SEC data as a substitute for current market data, consensus estimates, forward multiples, TAM estimates, option activity, or real-time price movement. If using edgartools or SEC filings, name the form and filing date, and separate "reported fact" from "analyst/market estimate."
+
 ## Growth Hypotheses
 
 Always frame future 3-5 year revenue CAGR as probabilities across these hypotheses:

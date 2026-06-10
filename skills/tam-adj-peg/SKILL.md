@@ -33,6 +33,29 @@ Collect the newest available data before scoring:
 - Business quality: competitive position, pricing power, customer concentration, technology iteration risk, cyclicality, and key milestones.
 - Preferred sources: company IR releases/presentations, earnings calls, SEC filings, consensus estimate providers, industry TAM reports, and reputable financial data sources.
 
+For U.S.-listed companies, use SEC filings as the baseline for reported fundamentals. `edgartools` is an optional helper for retrieving latest 10-K, 10-Q, 8-K, XBRL financial statements, filing text, insider transactions, and ownership filings.
+
+If the environment does not already have it, install with `pip install edgartools` or `uv pip install edgartools`. The import package is `edgar`, not `edgartools`. SEC access requires an identity; set `EDGAR_IDENTITY="Name email@example.com"` in the environment or call `from edgar import set_identity; set_identity("name@example.com")` before requests.
+
+Minimal usage pattern:
+
+```python
+from edgar import Company
+
+company = Company("AAPL")
+financials = company.get_financials()
+income = financials.income_statement()
+cashflow = financials.cashflow_statement()
+```
+
+Use SEC data to support:
+
+- revenue scale, segment mix, gross margin, EBIT margin, free cash flow, capex intensity, debt/cash, dilution, and share-count trends
+- customer concentration, pricing language, backlog/order commentary, supply constraints, technology risk, and cyclicality disclosures
+- 8-K earnings releases or guidance disclosures when they provide the newest company-reported inputs
+
+Do not rely on SEC data alone for forward PE, EPS CAGR, consensus revisions, current valuation, TAM size, TAM CAGR, or competitive market-share estimates. Keep reported SEC facts separate from forecasts and industry assumptions, and cite the filing form/date when using SEC evidence.
+
 If PE or EPS CAGR is not meaningful because the company is loss-making or earnings are highly volatile, mark PE/PEG as distorted and use normalized earnings, EV/Sales, milestone scenarios, or an option-style framework.
 
 ## Core Formula

@@ -25,6 +25,29 @@ Collect the newest available data before scoring:
 - Fundamental data: latest quarterly revenue, EPS, gross margin or gross profit, next-quarter company guidance, consensus revenue/EPS estimates, and 30-day estimate revisions.
 - Preferred sources: company IR releases/presentations, earnings calls, Yahoo Finance historical prices/analysis, TradingView technicals/estimates, Barchart technical analysis, Seeking Alpha estimates, Koyfin, FactSet, Bloomberg, TIKR, or Visible Alpha.
 
+For U.S.-listed companies, SEC filings can improve the fundamental side of the score. `edgartools` is an optional helper for retrieving the latest 10-K, 10-Q, 8-K, XBRL financial statements, filing text, insider transactions, and ownership filings.
+
+If the environment does not already have it, install with `pip install edgartools` or `uv pip install edgartools`. The import package is `edgar`, not `edgartools`. SEC access requires an identity; set `EDGAR_IDENTITY="Name email@example.com"` in the environment or call `from edgar import set_identity; set_identity("name@example.com")` before requests.
+
+Minimal usage pattern:
+
+```python
+from edgar import Company
+
+company = Company("AAPL")
+financials = company.get_financials()
+income = financials.income_statement()
+filings = company.get_filings(form="8-K")
+```
+
+Use SEC data for:
+
+- reported quarterly revenue, gross profit, EPS, cash flow, balance sheet, share count, and historical trend baselines
+- management language on demand, backlog, pricing, capacity, inventory, customer concentration, and risks
+- 8-K earnings releases or guidance disclosures when they contain the newest company-provided numbers
+
+Do not use SEC data for the technical module or revision module. Price, 20/50/100/200DMA, ATR20, 5-day price slope, consensus estimates, and 30-day estimate revisions still require market-data and estimate sources. When SEC data is used, state the filing form and filing date so the user can judge freshness.
+
 If a required field is unavailable, say which field is missing and use the simplified formula only when appropriate.
 
 ## Calculation Workflow
